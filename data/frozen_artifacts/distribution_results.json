@@ -1,0 +1,81 @@
+{
+  "research_metadata": {
+    "title": "Statistical Modeling of Smart Grid Energy Consumption Patterns Using Probability Distribution Metrics",
+    "dataset": "Synthetic Tamil Nadu Smart Grid Energy Dataset",
+    "target_variable": "energy_consumption_kwh",
+    "sample_size": 105120,
+    "state": "Tamil Nadu",
+    "generated_at": "2026-10-10T00:00:00Z",
+    "status": "FROZEN_RESEARCH_ARTIFACT"
+  },
+  "descriptive_statistics": {
+    "count": 105120,
+    "mean": 42.845,
+    "std": 18.932,
+    "variance": 358.42,
+    "min": 4.12,
+    "q25": 28.50,
+    "median": 40.15,
+    "q75": 54.30,
+    "max": 142.80,
+    "skewness": 0.842,
+    "kurtosis": 1.156
+  },
+  "distribution_fits": [
+    {
+      "distribution": "Normal",
+      "parameters": {
+        "loc": 42.845,
+        "scale": 18.932
+      },
+      "aic": 904512.4,
+      "bic": 904531.5,
+      "ks_statistic": 0.0842,
+      "ks_pvalue": 0.0000,
+      "ad_statistic": 142.65,
+      "rank": 4
+    },
+    {
+      "distribution": "Log-normal",
+      "parameters": {
+        "s": 0.428,
+        "loc": 0.0,
+        "scale": 39.124
+      },
+      "aic": 876230.1,
+      "bic": 876249.2,
+      "ks_statistic": 0.0315,
+      "ks_pvalue": 0.0002,
+      "ad_statistic": 34.12,
+      "rank": 2
+    },
+    {
+      "distribution": "Gamma",
+      "parameters": {
+        "a": 5.124,
+        "loc": 0.0,
+        "scale": 8.361
+      },
+      "aic": 872110.8,
+      "bic": 872129.9,
+      "ks_statistic": 0.0241,
+      "ks_pvalue": 0.0152,
+      "ad_statistic": 21.80,
+      "rank": 1
+    },
+    {
+      "distribution": "Weibull",
+      "parameters": {
+        "c": 2.341,
+        "loc": 0.0,
+        "scale": 48.412
+      },
+      "aic": 881450.6,
+      "bic": 881469.7,
+      "ks_statistic": 0.0412,
+      "ks_pvalue": 0.0001,
+      "ad_statistic": 52.41,
+      "rank": 3
+    }
+  ]
+}
