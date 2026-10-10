@@ -3,13 +3,14 @@ import { ApiResponse } from '../types/api';
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
 
 export class ApiError extends Error {
-  constructor(
-    public status: number,
-    public statusText: string,
-    message: string
-  ) {
+  status: number;
+  statusText: string;
+
+  constructor(status: number, statusText: string, message: string) {
     super(message);
     this.name = 'ApiError';
+    this.status = status;
+    this.statusText = statusText;
   }
 }
 
