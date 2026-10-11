@@ -1,0 +1,152 @@
+{
+  "timestamp": "2026-10-11T21:45:00+05:30",
+  "source_files": {
+    "distribution_results.json": {
+      "path": "C:\\Users\\VIBIN\\Downloads\\distribution_results.json",
+      "size_bytes": 24174,
+      "mtime": 1791733780.4037087
+    },
+    "distribution_results.csv": {
+      "path": "C:\\Users\\VIBIN\\Downloads\\distribution_results.csv",
+      "size_bytes": 802,
+      "mtime": 1791733945.2186902
+    },
+    "segment_statistics.csv": {
+      "path": "C:\\Users\\VIBIN\\Downloads\\segment_statistics.csv",
+      "size_bytes": 2880,
+      "mtime": 1791733792.6872575
+    },
+    "extreme_value_results.csv": {
+      "path": "C:\\Users\\VIBIN\\Downloads\\extreme_value_results.csv",
+      "size_bytes": 464,
+      "mtime": 1791733789.727587
+    }
+  },
+  "consistency_checks": [
+    "Overall best distribution MATCH: Both JSON and CSV agree on 'Log-normal' as Rank #1.",
+    "Numerical metrics (AIC, BIC, KS_statistic, KS_pvalue) match perfectly between JSON and CSV.",
+    "Segment consistency verified: 15/15 segment rows matched perfectly with JSON.",
+    "Extreme value parameters match between CSV and JSON: GEV(shape_c=-0.0443, loc_xi=64.1015, scale_beta=21.1282)."
+  ],
+  "discrepancies": [],
+  "missing_fields": [
+    {
+      "field": "descriptive_statistics (count, mean, std, variance, min, q25, median, q75, max, skewness, kurtosis)",
+      "file": "distribution_results.json",
+      "impact": "Descriptive statistics cannot be seeded without either calculating them from the 1M dataset (tamil_nadu_synthetic_smart_grid_energy_v2_1M.csv) or providing an authentic source summary.",
+      "action": "Recorded as missing. No fabrication performed."
+    },
+    {
+      "field": "Segment empirical moments: count, mean_kwh, std_kwh, median_kwh, min_kwh, max_kwh, skewness, kurtosis",
+      "file": "segment_statistics.csv",
+      "impact": "Segment statistics table currently lacks sample counts and consumption moments.",
+      "action": "Recorded as missing; dist_shape, dist_loc, dist_scale, and KS/AIC metrics preserved."
+    }
+  ],
+  "mappings": {
+    "sector": {
+      "Domestic": {
+        "display_label": "Residential",
+        "category": "sector"
+      },
+      "Commercial": {
+        "display_label": "Commercial",
+        "category": "sector"
+      },
+      "Industrial": {
+        "display_label": "Industrial",
+        "category": "sector"
+      },
+      "Agriculture": {
+        "display_label": "Agricultural",
+        "category": "sector"
+      },
+      "Miscellaneous": {
+        "display_label": "Miscellaneous",
+        "category": "sector"
+      }
+    },
+    "peak_period_flag": {
+      "0": {
+        "display_label": "Non-Peak",
+        "category": "period"
+      },
+      "1": {
+        "display_label": "Peak",
+        "category": "period"
+      }
+    },
+    "season": {
+      "Winter": {
+        "display_label": "Winter",
+        "category": "season"
+      },
+      "Summer": {
+        "display_label": "Summer",
+        "category": "season"
+      },
+      "Southwest_Monsoon": {
+        "display_label": "Monsoon (SW)",
+        "category": "season"
+      },
+      "Northeast_Monsoon": {
+        "display_label": "Post-Monsoon (NE)",
+        "category": "season"
+      }
+    },
+    "hour_segment": {
+      "Night": {
+        "display_label": "Night (00:00 - 06:00)",
+        "category": "diurnal"
+      },
+      "Morning": {
+        "display_label": "Morning (06:00 - 12:00)",
+        "category": "diurnal"
+      },
+      "Afternoon": {
+        "display_label": "Afternoon (12:00 - 18:00)",
+        "category": "diurnal"
+      },
+      "Evening": {
+        "display_label": "Evening (18:00 - 24:00)",
+        "category": "diurnal"
+      }
+    }
+  },
+  "staged_files": {
+    "distribution_results.json": {
+      "path": "C:\\Users\\VIBIN\\Vibin Projects\\Smart Grid Energy\\data\\staged_artifacts\\distribution_results.json",
+      "records": 4
+    },
+    "distribution_results.csv": {
+      "path": "C:\\Users\\VIBIN\\Vibin Projects\\Smart Grid Energy\\data\\staged_artifacts\\distribution_results.csv",
+      "rows": 4
+    },
+    "segment_statistics.csv": {
+      "path": "C:\\Users\\VIBIN\\Vibin Projects\\Smart Grid Energy\\data\\staged_artifacts\\segment_statistics.csv",
+      "rows": 15
+    },
+    "segment_display_mappings.json": {
+      "path": "C:\\Users\\VIBIN\\Vibin Projects\\Smart Grid Energy\\data\\staged_artifacts\\segment_display_mappings.json",
+      "categories": [
+        "sector",
+        "peak_period_flag",
+        "season",
+        "hour_segment"
+      ]
+    },
+    "extreme_value_results.json": {
+      "path": "C:\\Users\\VIBIN\\Vibin Projects\\Smart Grid Energy\\data\\staged_artifacts\\extreme_value_results.json",
+      "return_levels_count": 6
+    },
+    "extreme_value_results.csv": {
+      "path": "C:\\Users\\VIBIN\\Vibin Projects\\Smart Grid Energy\\data\\staged_artifacts\\extreme_value_results.csv",
+      "rows": 6
+    }
+  },
+  "unresolved_incompatibilities": [
+    "Current DB model ExtremeValueResult defines return_period_years as Integer (cannot store 7, 30, 90, 180 day periods without truncation).",
+    "Current DB model defines ci_lower_95 and ci_upper_95 as non-nullable Float, but Colab export does not contain bootstrap confidence intervals.",
+    "Colab export contains only Daily Maxima (41,667 daily blocks); Monthly Maxima is not present."
+  ]
+}

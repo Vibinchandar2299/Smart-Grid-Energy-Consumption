@@ -1,0 +1,25 @@
+{
+  "distribution": "GEV",
+  "block_type": "daily_maxima",
+  "sample_maxima_count": 41667,
+  "shape_c": -0.04426805680710684,
+  "loc_xi": 64.10146039486897,
+  "scale_beta": 21.12821443399509,
+  "domain_type": "Weibull (Type III, Bounded upper tail)",
+  "aic": 387906.67714816134,
+  "ks_statistic": 0.008273090198760435,
+  "ks_pvalue": 0.006630077833693152,
+  "return_levels_days": {
+    "7": 105.28860688969333,
+    "30": 141.2396039214479,
+    "90": 169.1610108806406,
+    "180": 187.38097946282443,
+    "365": 206.51131968630528,
+    "730": 225.84016721580406
+  },
+  "annual_equivalents": {
+    "1_year (365_days)": 206.51131968630528,
+    "2_year (730_days)": 225.84016721580406
+  },
+  "confidence_intervals_available": false
+}
