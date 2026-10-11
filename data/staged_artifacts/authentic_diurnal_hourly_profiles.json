@@ -1,0 +1,197 @@
+{
+  "description": "Authentic 24-hour diurnal profile computed from 1,000,000 observations.",
+  "hourly_profiles": [
+    {
+      "hour": 0,
+      "mean_kwh": 12.6661,
+      "std_kwh": 8.747,
+      "median_kwh": 9.2265,
+      "count": 41676,
+      "peak_period_flag": false
+    },
+    {
+      "hour": 1,
+      "mean_kwh": 12.3869,
+      "std_kwh": 8.554,
+      "median_kwh": 9.125,
+      "count": 41676,
+      "peak_period_flag": false
+    },
+    {
+      "hour": 2,
+      "mean_kwh": 12.2946,
+      "std_kwh": 8.4796,
+      "median_kwh": 9.118,
+      "count": 41676,
+      "peak_period_flag": false
+    },
+    {
+      "hour": 3,
+      "mean_kwh": 12.3378,
+      "std_kwh": 8.5101,
+      "median_kwh": 9.301,
+      "count": 41676,
+      "peak_period_flag": false
+    },
+    {
+      "hour": 4,
+      "mean_kwh": 12.581,
+      "std_kwh": 8.6504,
+      "median_kwh": 9.7095,
+      "count": 41676,
+      "peak_period_flag": false
+    },
+    {
+      "hour": 5,
+      "mean_kwh": 13.3268,
+      "std_kwh": 9.0443,
+      "median_kwh": 10.4675,
+      "count": 41668,
+      "peak_period_flag": false
+    },
+    {
+      "hour": 6,
+      "mean_kwh": 14.2909,
+      "std_kwh": 9.5911,
+      "median_kwh": 11.253,
+      "count": 41664,
+      "peak_period_flag": false
+    },
+    {
+      "hour": 7,
+      "mean_kwh": 15.0741,
+      "std_kwh": 10.0226,
+      "median_kwh": 11.6265,
+      "count": 41664,
+      "peak_period_flag": false
+    },
+    {
+      "hour": 8,
+      "mean_kwh": 15.4047,
+      "std_kwh": 10.2308,
+      "median_kwh": 11.6835,
+      "count": 41664,
+      "peak_period_flag": false
+    },
+    {
+      "hour": 9,
+      "mean_kwh": 15.8015,
+      "std_kwh": 10.4591,
+      "median_kwh": 11.9545,
+      "count": 41664,
+      "peak_period_flag": false
+    },
+    {
+      "hour": 10,
+      "mean_kwh": 16.1123,
+      "std_kwh": 10.6809,
+      "median_kwh": 12.345,
+      "count": 41664,
+      "peak_period_flag": false
+    },
+    {
+      "hour": 11,
+      "mean_kwh": 16.272,
+      "std_kwh": 10.8199,
+      "median_kwh": 12.358,
+      "count": 41664,
+      "peak_period_flag": true
+    },
+    {
+      "hour": 12,
+      "mean_kwh": 16.1237,
+      "std_kwh": 10.6651,
+      "median_kwh": 12.2175,
+      "count": 41664,
+      "peak_period_flag": true
+    },
+    {
+      "hour": 13,
+      "mean_kwh": 16.1776,
+      "std_kwh": 10.7029,
+      "median_kwh": 12.3865,
+      "count": 41664,
+      "peak_period_flag": true
+    },
+    {
+      "hour": 14,
+      "mean_kwh": 16.1429,
+      "std_kwh": 10.5291,
+      "median_kwh": 12.68,
+      "count": 41664,
+      "peak_period_flag": true
+    },
+    {
+      "hour": 15,
+      "mean_kwh": 16.0002,
+      "std_kwh": 10.4141,
+      "median_kwh": 12.5365,
+      "count": 41664,
+      "peak_period_flag": true
+    },
+    {
+      "hour": 16,
+      "mean_kwh": 15.9178,
+      "std_kwh": 10.1527,
+      "median_kwh": 12.4005,
+      "count": 41664,
+      "peak_period_flag": true
+    },
+    {
+      "hour": 17,
+      "mean_kwh": 16.1047,
+      "std_kwh": 9.8808,
+      "median_kwh": 12.607,
+      "count": 41664,
+      "peak_period_flag": true
+    },
+    {
+      "hour": 18,
+      "mean_kwh": 15.9884,
+      "std_kwh": 9.3452,
+      "median_kwh": 12.491,
+      "count": 41664,
+      "peak_period_flag": true
+    },
+    {
+      "hour": 19,
+      "mean_kwh": 15.915,
+      "std_kwh": 9.0691,
+      "median_kwh": 12.2185,
+      "count": 41664,
+      "peak_period_flag": true
+    },
+    {
+      "hour": 20,
+      "mean_kwh": 15.2196,
+      "std_kwh": 8.7525,
+      "median_kwh": 11.433,
+      "count": 41664,
+      "peak_period_flag": true
+    },
+    {
+      "hour": 21,
+      "mean_kwh": 14.5881,
+      "std_kwh": 8.752,
+      "median_kwh": 10.735,
+      "count": 41664,
+      "peak_period_flag": false
+    },
+    {
+      "hour": 22,
+      "mean_kwh": 13.7387,
+      "std_kwh": 8.6247,
+      "median_kwh": 9.9605,
+      "count": 41664,
+      "peak_period_flag": false
+    },
+    {
+      "hour": 23,
+      "mean_kwh": 13.2452,
+      "std_kwh": 8.698,
+      "median_kwh": 9.5505,
+      "count": 41664,
+      "peak_period_flag": false
+    }
+  ]
+}

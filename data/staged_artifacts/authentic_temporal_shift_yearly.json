@@ -1,0 +1,106 @@
+{
+  "description": "Authentic multi-year temporal consumption shifts across 2015-2024 cohorts.",
+  "baseline_year": 2015,
+  "shifts": [
+    {
+      "year": 2015,
+      "count": 105120,
+      "mean_kwh": 13.6715,
+      "std_kwh": 8.9813,
+      "median_kwh": 10.045,
+      "skewness": 0.5225,
+      "kurtosis": -1.0494,
+      "shift_pct_from_2015": 0.0
+    },
+    {
+      "year": 2016,
+      "count": 105408,
+      "mean_kwh": 13.9755,
+      "std_kwh": 9.1802,
+      "median_kwh": 10.3015,
+      "skewness": 0.5217,
+      "kurtosis": -1.0459,
+      "shift_pct_from_2015": 2.22
+    },
+    {
+      "year": 2017,
+      "count": 105120,
+      "mean_kwh": 14.1721,
+      "std_kwh": 9.2907,
+      "median_kwh": 10.424,
+      "skewness": 0.5151,
+      "kurtosis": -1.0576,
+      "shift_pct_from_2015": 3.66
+    },
+    {
+      "year": 2018,
+      "count": 105120,
+      "mean_kwh": 14.3904,
+      "std_kwh": 9.4377,
+      "median_kwh": 10.639,
+      "skewness": 0.5179,
+      "kurtosis": -1.0494,
+      "shift_pct_from_2015": 5.26
+    },
+    {
+      "year": 2019,
+      "count": 105120,
+      "mean_kwh": 14.6038,
+      "std_kwh": 9.5817,
+      "median_kwh": 10.764,
+      "skewness": 0.5251,
+      "kurtosis": -1.0384,
+      "shift_pct_from_2015": 6.82
+    },
+    {
+      "year": 2020,
+      "count": 105408,
+      "mean_kwh": 14.8579,
+      "std_kwh": 9.747,
+      "median_kwh": 10.974,
+      "skewness": 0.5243,
+      "kurtosis": -1.0317,
+      "shift_pct_from_2015": 8.68
+    },
+    {
+      "year": 2021,
+      "count": 105120,
+      "mean_kwh": 15.1193,
+      "std_kwh": 9.9385,
+      "median_kwh": 11.175,
+      "skewness": 0.5291,
+      "kurtosis": -1.0274,
+      "shift_pct_from_2015": 10.59
+    },
+    {
+      "year": 2022,
+      "count": 105120,
+      "mean_kwh": 15.4206,
+      "std_kwh": 10.0903,
+      "median_kwh": 11.382,
+      "skewness": 0.5129,
+      "kurtosis": -1.0559,
+      "shift_pct_from_2015": 12.79
+    },
+    {
+      "year": 2023,
+      "count": 105120,
+      "mean_kwh": 15.5696,
+      "std_kwh": 10.1945,
+      "median_kwh": 11.494,
+      "skewness": 0.5229,
+      "kurtosis": -1.045,
+      "shift_pct_from_2015": 13.88
+    },
+    {
+      "year": 2024,
+      "count": 53344,
+      "mean_kwh": 16.4345,
+      "std_kwh": 10.7896,
+      "median_kwh": 12.1545,
+      "skewness": 0.5208,
+      "kurtosis": -1.0531,
+      "shift_pct_from_2015": 20.21
+    }
+  ]
+}
