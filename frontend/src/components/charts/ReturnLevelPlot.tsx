@@ -18,19 +18,28 @@ interface ReturnLevelPlotProps {
 }
 
 export const ReturnLevelPlot: React.FC<ReturnLevelPlotProps> = ({ data, blockType }) => {
-  const chartData = data.map((d) => ({
-    return_period: `${d.return_period_years}y`,
-    years: d.return_period_years,
-    return_level: d.return_level_kwh,
-    ci_lower: d.ci_lower_95,
-    ci_upper: d.ci_upper_95,
-  }));
+  const chartData = data.map((d) => {
+    const periodLabel = d.return_period_days != null ? `${d.return_period_days}d` : `${d.return_period_years}y`;
+    return {
+      return_period: periodLabel,
+      days: d.return_period_days,
+      years: d.return_period_years,
+      return_level: d.return_level_kwh,
+      ci_lower: d.ci_lower_95 ?? undefined,
+      ci_upper: d.ci_upper_95 ?? undefined,
+    };
+  });
+
+  const hasCIs = data.some((d) => d.ci_lower_95 != null && d.ci_upper_95 != null);
+  const isDays = data.some((d) => d.return_period_days != null);
 
   return (
     <div className="chart-card">
       <div className="chart-header">
         <h3 className="chart-title">GEV Return Level Curve ({blockType.replace('_', ' ')})</h3>
-        <span className="chart-badge">95% Confidence Bounds</span>
+        <span className="chart-badge">
+          {hasCIs ? '95% Confidence Bounds' : 'Point Estimates (Uncomputed Bootstrap CIs)'}
+        </span>
       </div>
       <div className="chart-body" style={{ height: 350, width: '100%' }}>
         <ResponsiveContainer width="100%" height="100%">
@@ -41,7 +50,7 @@ export const ReturnLevelPlot: React.FC<ReturnLevelPlotProps> = ({ data, blockTyp
               stroke="#94a3b8"
               tick={{ fill: '#94a3b8', fontSize: 12 }}
               label={{
-                value: 'Return Period (Years)',
+                value: isDays ? 'Return Period (Days)' : 'Return Period (Years)',
                 position: 'insideBottom',
                 offset: -10,
                 fill: '#94a3b8',
@@ -78,24 +87,28 @@ export const ReturnLevelPlot: React.FC<ReturnLevelPlotProps> = ({ data, blockTyp
               strokeWidth={3}
               dot={{ r: 5, fill: '#f59e0b' }}
             />
-            <Line
-              type="monotone"
-              dataKey="ci_upper"
-              name="95% Upper CI"
-              stroke="#ef4444"
-              strokeDasharray="4 4"
-              strokeWidth={1.5}
-              dot={false}
-            />
-            <Line
-              type="monotone"
-              dataKey="ci_lower"
-              name="95% Lower CI"
-              stroke="#10b981"
-              strokeDasharray="4 4"
-              strokeWidth={1.5}
-              dot={false}
-            />
+            {hasCIs && (
+              <>
+                <Line
+                  type="monotone"
+                  dataKey="ci_upper"
+                  name="95% Upper CI"
+                  stroke="#ef4444"
+                  strokeDasharray="4 4"
+                  strokeWidth={1.5}
+                  dot={false}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="ci_lower"
+                  name="95% Lower CI"
+                  stroke="#10b981"
+                  strokeDasharray="4 4"
+                  strokeWidth={1.5}
+                  dot={false}
+                />
+              </>
+            )}
           </LineChart>
         </ResponsiveContainer>
       </div>

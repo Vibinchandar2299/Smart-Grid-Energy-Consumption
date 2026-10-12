@@ -22,7 +22,7 @@ export interface DistributionFit {
   bic: number;
   ks_statistic: number;
   ks_pvalue: number;
-  ad_statistic: number;
+  ad_statistic?: number | null;
   rank: number;
   parameters_json?: Record<string, number> | null;
 }

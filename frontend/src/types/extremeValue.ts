@@ -4,10 +4,12 @@ export interface ExtremeValueItem {
   shape_xi: number;
   loc_mu: number;
   scale_sigma: number;
-  return_period_years: number;
+  return_period_days?: number | null;
+  return_period_years?: number | null;
   return_level_kwh: number;
-  ci_lower_95: number;
-  ci_upper_95: number;
+  ci_lower_95?: number | null;
+  ci_upper_95?: number | null;
+  daily_exceedance_rate?: number | null;
 }
 
 export interface GevParameters {
