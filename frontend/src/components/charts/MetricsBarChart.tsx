@@ -16,10 +16,11 @@ interface MetricsBarChartProps {
 }
 
 export const MetricsBarChart: React.FC<MetricsBarChartProps> = ({ fits }) => {
+  const hasAdStats = fits.some((f) => f.ad_statistic != null);
   const chartData = fits.map((f) => ({
     name: f.distribution,
     ks_stat: Number((f.ks_statistic * 100).toFixed(2)),
-    ad_stat: Number(f.ad_statistic.toFixed(1)),
+    ad_stat: f.ad_statistic != null ? Number(f.ad_statistic.toFixed(1)) : null,
     rank: f.rank,
   }));
 
@@ -27,7 +28,7 @@ export const MetricsBarChart: React.FC<MetricsBarChartProps> = ({ fits }) => {
     <div className="chart-card">
       <div className="chart-header">
         <h3 className="chart-title">Goodness-of-Fit Distance Metrics (Lower is Superior)</h3>
-        <span className="chart-badge">KS & AD Statistics</span>
+        <span className="chart-badge">{hasAdStats ? 'KS & AD Statistics' : 'KS Distance Metric (AD Uncomputed)'}</span>
       </div>
       <div className="chart-body" style={{ height: 320, width: '100%' }}>
         <ResponsiveContainer width="100%" height="100%">
@@ -46,7 +47,9 @@ export const MetricsBarChart: React.FC<MetricsBarChartProps> = ({ fits }) => {
             />
             <Legend verticalAlign="top" height={36} wrapperStyle={{ color: '#cbd5e1' }} />
             <Bar dataKey="ks_stat" name="Kolmogorov-Smirnov D (%)" fill="#06b6d4" radius={[4, 4, 0, 0]} />
-            <Bar dataKey="ad_stat" name="Anderson-Darling Stat (A²)" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+            {hasAdStats && (
+              <Bar dataKey="ad_stat" name="Anderson-Darling Stat (A²)" fill="#8b5cf6" radius={[4, 4, 0, 0]} />
+            )}
           </BarChart>
         </ResponsiveContainer>
       </div>
