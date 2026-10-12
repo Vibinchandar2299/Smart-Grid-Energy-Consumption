@@ -83,7 +83,7 @@ def test_sector_analysis_endpoint():
 
 
 def test_peak_analysis_endpoint():
-    res = client.get("/api/v1/peak-analysis")
+    res = client.get("/api/v1/peak")
     assert res.status_code == 200
     data = res.json()["data"]
 
