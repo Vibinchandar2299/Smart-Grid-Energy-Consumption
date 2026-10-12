@@ -196,7 +196,7 @@ export const SectorAnalysisPage: React.FC = () => {
         </div>
 
         {/* Sector Consumption Share Card */}
-        <div className="card-box" style={{ display: 'flex', flexDirections: 'column', justifyContent: 'space-between' }}>
+        <div className="card-box" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <div>
             <div className="card-heading">Grid Energy Share Breakdown</div>
             <p className="card-subheading">
@@ -235,7 +235,7 @@ export const SectorAnalysisPage: React.FC = () => {
           </div>
 
           <div className="notice-box mt-4">
-            <strong>Share Formulation:</strong> Sector shares are computed as $(\text{Count} \times \overline{x}_{\text{sector}}) / \text{Total Monitored Energy}$. Miscellaneous represents 40% of meter connections (municipal, street lighting, unclassified), while Industrial commands 25.96% of total load with only 15% of meter connections.
+            <strong>Share Formulation:</strong> Sector shares are computed as (Count × Mean Load) / Total Monitored Energy. Miscellaneous represents 40% of meter connections (municipal, street lighting, unclassified), while Industrial commands 25.96% of total load with only 15% of meter connections.
           </div>
         </div>
       </div>

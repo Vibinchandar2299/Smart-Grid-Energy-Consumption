@@ -7,7 +7,7 @@ interface MetricCardProps {
   subtitle?: string;
   badge?: string;
   icon?: React.ReactNode;
-  variant?: 'emerald' | 'blue' | 'amber' | 'rose' | 'default';
+  variant?: 'emerald' | 'blue' | 'amber' | 'rose' | 'cyan' | 'purple' | 'default' | string;
 }
 
 export const MetricCard: React.FC<MetricCardProps> = ({
