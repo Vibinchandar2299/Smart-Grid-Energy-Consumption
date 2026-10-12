@@ -29,7 +29,7 @@ class DistributionFitSchema(BaseModel):
     bic: float
     ks_statistic: float
     ks_pvalue: float
-    ad_statistic: float
+    ad_statistic: Optional[float] = None
     rank: int
     parameters_json: Optional[Dict[str, Any]] = None
 

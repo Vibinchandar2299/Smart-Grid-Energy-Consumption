@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     ENVIRONMENT: str = "development"
 
     # PostgreSQL Database Connection
-    DATABASE_URL: str = "postgresql+psycopg2://postgres:postgres@localhost:5432/smart_grid_energy"
+    DATABASE_URL: str = "postgresql+psycopg2://postgres:root@localhost:5432/smart_grid_energy"
 
     # Server Host / Port
     HOST: str = "0.0.0.0"
@@ -32,11 +32,11 @@ class Settings(BaseSettings):
             return v
         return []
 
-    # Frozen artifacts path (points to data/frozen_artifacts)
-    ARTIFACTS_DIR: Path = Path(__file__).resolve().parent.parent.parent.parent / "data" / "frozen_artifacts"
+    # Artifacts path (points to data/staged_artifacts)
+    ARTIFACTS_DIR: Path = Path(__file__).resolve().parent.parent.parent.parent / "data" / "staged_artifacts"
 
     model_config = SettingsConfigDict(
-        env_file=".env",
+        env_file=Path(__file__).resolve().parent.parent.parent / ".env",
         env_file_encoding="utf-8",
         case_sensitive=True,
         extra="ignore"

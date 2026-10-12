@@ -35,6 +35,6 @@ class DistributionFit(Base):
     bic = Column(Float, nullable=False)
     ks_statistic = Column(Float, nullable=False)
     ks_pvalue = Column(Float, nullable=False)
-    ad_statistic = Column(Float, nullable=False)
+    ad_statistic = Column(Float, nullable=True)
     rank = Column(Integer, nullable=False)
     parameters_json = Column(JSON, nullable=True)
