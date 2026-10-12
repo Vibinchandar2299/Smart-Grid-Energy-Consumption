@@ -68,8 +68,8 @@ export const OverviewPage: React.FC = () => {
           <li><strong>Primary Random Variable:</strong> <code>energy_consumption_kwh</code> across Tamil Nadu smart meters.</li>
           <li><strong>Spatial Domain:</strong> Stratified across synthetic districts within Tamil Nadu.</li>
           <li><strong>Data Leakage Prevention:</strong> <code>generation_event_type</code> is strictly excluded from predictive/statistical input variables.</li>
-          <li><strong>Temporal Hierarchy:</strong> Hour-level diurnal resolution with seasonal and multi-year tracking (2022–2025).</li>
-          <li><strong>Strict Invariance:</strong> Zero runtime refitting; parameters are served directly from validated Colab frozen artifacts stored in PostgreSQL.</li>
+          <li><strong>Temporal Hierarchy:</strong> Hour-level diurnal resolution with seasonal and multi-year tracking (2015–2024, 10 annual cohorts).</li>
+          <li><strong>Strict Invariance:</strong> Zero runtime refitting; parameters are served directly from validated research artifacts stored in PostgreSQL.</li>
         </ul>
       </div>
     </div>

@@ -74,6 +74,11 @@ export const DistributionAnalysisPage: React.FC = () => {
 
       <div className="card-box mt-6">
         <h3 className="card-heading">Goodness-of-Fit Comparison Table</h3>
+        
+        <div className="notice-box mt-3 mb-3 p-3 bg-slate-900 border border-slate-700 rounded text-xs text-slate-400">
+          <strong>Provenance & Methodology Note:</strong> Probability distribution parameters and goodness-of-fit metrics are derived from Google Colab maximum-likelihood estimation (MLE) labeled <em>Unverified Local Provenance</em>. Anderson-Darling (AD) statistics were not computed in the research export and remain null (N/A). Empirical descriptive statistics above represent the authentic 1,000,000-observation dataset.
+        </div>
+
         <table className="data-table">
           <thead>
             <tr>
@@ -104,7 +109,13 @@ export const DistributionAnalysisPage: React.FC = () => {
                 <td>{formatNumber(fit.bic, 1)}</td>
                 <td>{formatNumber(fit.ks_statistic, 4)}</td>
                 <td>{formatScientific(fit.ks_pvalue)}</td>
-                <td>{formatNumber(fit.ad_statistic, 2)}</td>
+                <td>
+                  {fit.ad_statistic != null ? (
+                    formatNumber(fit.ad_statistic, 2)
+                  ) : (
+                    <span className="text-slate-500 italic text-xs">N/A (uncomputed)</span>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>

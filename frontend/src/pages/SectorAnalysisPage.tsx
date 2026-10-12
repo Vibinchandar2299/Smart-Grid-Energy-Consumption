@@ -59,7 +59,7 @@ export const SectorAnalysisPage: React.FC = () => {
         <MetricCard
           title="Total Sectors Evaluated"
           value={data.sectors.length}
-          subtitle="Residential, Commercial, Industrial, Agri"
+          subtitle="Agriculture, Commercial, Domestic, Industrial, Misc"
           variant="cyan"
         />
       </div>

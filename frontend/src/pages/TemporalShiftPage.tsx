@@ -29,9 +29,9 @@ export const TemporalShiftPage: React.FC = () => {
   return (
     <div className="page-container">
       <div className="page-header">
-        <h2 className="page-title">7. Temporal Distribution Shift Across Years (2022–2025)</h2>
+        <h2 className="page-title">7. Temporal Distribution Shift Across Years (2015–2024)</h2>
         <p className="page-description">
-          Tracking parameter drift and long-term consumption distribution shifts across multi-year smart grid observations.
+          Tracking parameter drift and long-term consumption distribution shifts across 10 annual smart grid cohorts.
         </p>
       </div>
 
@@ -44,8 +44,8 @@ export const TemporalShiftPage: React.FC = () => {
         />
         <MetricCard
           title="Observation Window"
-          value="2022 – 2025"
-          subtitle="4 longitudinal annual cohorts"
+          value="2015 – 2024"
+          subtitle="10 longitudinal cohorts (2024 Jan–Jul partial)"
           variant="purple"
         />
       </div>
@@ -70,7 +70,14 @@ export const TemporalShiftPage: React.FC = () => {
           <tbody>
             {data.shifts.map((s) => (
               <tr key={s.year}>
-                <td><strong>{s.year}</strong></td>
+                <td>
+                  <strong>{s.year}</strong>
+                  {s.year === 2024 && (
+                    <span className="ml-2 text-xs text-amber font-mono font-normal">
+                      (Jan–Jul Partial Year: 53,344 obs)
+                    </span>
+                  )}
+                </td>
                 <td>{formatKwh(s.mean_kwh)}</td>
                 <td>{formatKwh(s.median_kwh)}</td>
                 <td>±{formatNumber(s.std_kwh)}</td>
