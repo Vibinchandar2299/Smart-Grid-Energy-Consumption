@@ -23,7 +23,9 @@ class ExtremeValueService:
         for r in records:
             item = ExtremeValueItem.model_validate(r)
             if item.return_period_days and item.return_period_days > 0:
-                item.daily_exceedance_rate = round(1.0 / item.return_period_days, 6)
+                rate = round(1.0 / item.return_period_days, 6)
+                item.reciprocal_rate = rate
+                item.daily_exceedance_rate = rate
             items.append(item)
 
         if items:
@@ -49,9 +51,10 @@ class ExtremeValueService:
         )
 
         summary = (
-            f"Block maxima fitted with GEV parameters (ξ = {round(shape_xi, 4)}, μ = {round(loc_mu, 2)} kWh, σ = {round(scale_sigma, 2)} kWh). "
+            f"Daily block maxima fitted with GEV parameters (ξ = {round(shape_xi, 4)}, μ = {round(loc_mu, 2)} kWh, σ = {round(scale_sigma, 2)} kWh). "
             f"The negative shape parameter (ξ < 0) indicates a Type III (Weibull-like) domain with a finite upper tail bound, "
-            "signaling physical saturation limits on daily maximum grid consumption."
+            "signaling physical saturation limits on daily maximum grid consumption. "
+            "Return periods are day-based (7d to 730d); reciprocal rates (1/T) represent return-period reciprocal rates rather than empirical marginal exceedance probabilities."
             if shape_xi < 0
             else f"Block maxima fitted with GEV parameters (ξ = {round(shape_xi, 4)}, μ = {round(loc_mu, 2)} kWh, σ = {round(scale_sigma, 2)} kWh)."
         )

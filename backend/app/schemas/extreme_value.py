@@ -14,6 +14,7 @@ class ExtremeValueItem(BaseModel):
     return_level_kwh: float
     ci_lower_95: Optional[float] = None
     ci_upper_95: Optional[float] = None
+    reciprocal_rate: Optional[float] = None
     daily_exceedance_rate: Optional[float] = None
 
     model_config = ConfigDict(from_attributes=True)

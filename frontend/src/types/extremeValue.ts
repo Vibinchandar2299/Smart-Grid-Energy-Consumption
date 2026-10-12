@@ -9,6 +9,7 @@ export interface ExtremeValueItem {
   return_level_kwh: number;
   ci_lower_95?: number | null;
   ci_upper_95?: number | null;
+  reciprocal_rate?: number | null;
   daily_exceedance_rate?: number | null;
 }
 
