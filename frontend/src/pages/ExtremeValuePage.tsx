@@ -92,11 +92,11 @@ export const ExtremeValuePage: React.FC = () => {
       </div>
 
       <div className="card-box mt-6">
-        <h3 className="card-heading">Calculated Return Levels & Exceedance Probabilities</h3>
+        <h3 className="card-heading">Calculated Return Levels & Reciprocal Return-Period Rates</h3>
         <p className="summary-text">{data.statistical_summary}</p>
 
         <div className="notice-box mt-3 mb-3 p-3 bg-slate-900 border border-slate-700 rounded text-xs text-slate-400">
-          <strong>Statistical Integrity Protocol:</strong> Day-based return periods (7d, 30d, 90d, 180d, 365d, 730d) derived from daily maxima block sampling. Reciprocal return-period rates represent daily recurrence frequency (1/T). 95% bootstrap confidence intervals were not computed in the original research export and remain null (N/A) without synthetic fabrication.
+          <strong>Statistical Integrity Protocol:</strong> Day-based return periods (7d, 30d, 90d, 180d, 365d, 730d) derived from daily block maxima. The reciprocal rate (1/T) represents the return-period reciprocal frequency (1/T days) under the fitted model and is not presented as an empirically verified marginal daily exceedance probability. 95% bootstrap confidence intervals were not computed in the research export and remain null (N/A) without synthetic fabrication.
         </div>
 
         <table className="data-table mt-4">
@@ -106,7 +106,7 @@ export const ExtremeValuePage: React.FC = () => {
               <th>Expected Return Level (kWh)</th>
               <th>95% Lower Confidence Bound</th>
               <th>95% Upper Confidence Bound</th>
-              <th>Reciprocal Exceedance Rate (1/T)</th>
+              <th>Reciprocal Return-Period Rate (1/T)</th>
             </tr>
           </thead>
           <tbody>
@@ -135,8 +135,8 @@ export const ExtremeValuePage: React.FC = () => {
                     )}
                   </td>
                   <td>
-                    {item.daily_exceedance_rate != null ? (
-                      <code>{formatNumber(item.daily_exceedance_rate * 100, 3)}% daily (1/{item.return_period_days}d)</code>
+                    {item.reciprocal_rate != null || item.daily_exceedance_rate != null ? (
+                      <code>{formatNumber(((item.reciprocal_rate ?? item.daily_exceedance_rate) as number) * 100, 3)}% (1/{item.return_period_days}d rate)</code>
                     ) : item.return_period_years && item.return_period_years > 0 ? (
                       <code>{formatNumber((1 / item.return_period_years) * 100, 1)}% per year</code>
                     ) : (

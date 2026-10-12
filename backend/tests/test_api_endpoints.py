@@ -147,4 +147,5 @@ def test_extreme_values_endpoint():
         assert r["ci_lower_95"] is None
         assert r["ci_upper_95"] is None
         assert r["daily_exceedance_rate"] is not None
-        assert pytest.approx(r["daily_exceedance_rate"], rel=1e-4) == 1.0 / r["return_period_days"]
+        assert r["reciprocal_rate"] is not None
+        assert pytest.approx(r["reciprocal_rate"], rel=1e-4) == 1.0 / r["return_period_days"]
