@@ -6,9 +6,12 @@ Service layer for segment-specific analyses:
 - Hourly profile analysis (0-23 hours)
 - Temporal distribution shift (Year-over-year)
 """
+import json
+from pathlib import Path
 from typing import List
 from sqlalchemy.orm import Session
 
+from app.core.config import settings
 from app.repositories.segment_repo import SegmentRepository
 from app.schemas.segment import (
     SectorAnalysisResponse,
@@ -38,8 +41,8 @@ class SegmentService:
             highest_consuming_sector=highest_cons,
             highest_volatility_sector=highest_vol,
             statistical_summary=(
-                "Industrial and Commercial sectors exhibit right-shifted distributions with higher variance, "
-                "modeled best by Gamma distributions, whereas Residential shows moderate positive skew."
+                "Industrial (25.50 kWh) and Commercial (12.42 kWh) exhibit the highest load intensity, "
+                "Agriculture averages 9.82 kWh, Miscellaneous 7.51 kWh, and Domestic 4.95 kWh across 1,000,000 observations."
             ),
         )
 
@@ -51,15 +54,17 @@ class SegmentService:
         peak_schema = SegmentStatisticSchema.model_validate(peak) if peak else None
         non_peak_schema = SegmentStatisticSchema.model_validate(non_peak) if non_peak else None
 
-        ratio = (peak_schema.mean_kwh / non_peak_schema.mean_kwh) if (peak_schema and non_peak_schema and non_peak_schema.mean_kwh > 0) else 1.58
+        ratio = (peak_schema.mean_kwh / non_peak_schema.mean_kwh) if (peak_schema and non_peak_schema and non_peak_schema.mean_kwh > 0) else 1.155
+        ratio_rounded = round(ratio, 3)
 
         return PeakAnalysisResponse(
             peak=peak_schema,
             non_peak=non_peak_schema,
-            ratio_peak_to_non_peak_mean=round(ratio, 2),
+            ratio_peak_to_non_peak_mean=ratio_rounded,
             statistical_summary=(
-                f"Peak periods exhibit an average consumption {round(ratio, 2)}x higher than non-peak hours, "
-                "with an increased upper-tail density indicative of load stress."
+                f"Peak periods exhibit an average consumption of {peak_schema.mean_kwh if peak_schema else 15.99} kWh "
+                f"vs {non_peak_schema.mean_kwh if non_peak_schema else 13.85} kWh non-peak ({ratio_rounded}x ratio), "
+                "with an increased upper-tail density indicative of grid peak stress."
             ),
         )
 
@@ -68,7 +73,7 @@ class SegmentService:
         schemas = [SegmentStatisticSchema.model_validate(r) for r in records]
 
         peak_season = max(schemas, key=lambda s: s.mean_kwh).segment_value if schemas else "Summer"
-        lowest_season = min(schemas, key=lambda s: s.mean_kwh).segment_value if schemas else "Monsoon"
+        lowest_season = min(schemas, key=lambda s: s.mean_kwh).segment_value if schemas else "Winter"
 
         return SeasonalAnalysisResponse(
             seasons=schemas,
@@ -76,18 +81,41 @@ class SegmentService:
             lowest_season=lowest_season,
             statistical_summary=(
                 f"Summer exhibits the highest mean consumption ({peak_season}) driven by cooling demand, "
-                f"while Monsoon demonstrates reduced consumption with lower variance."
+                f"while Winter demonstrates lower mean consumption across Tamil Nadu grid sectors."
             ),
         )
 
     def get_hourly_profiles(self) -> HourlyAnalysisResponse:
-        # Predefined 24-hour diurnal load pattern reflecting smart-grid measurements
-        # (Peak hours typically 09:00 - 13:00 and 18:00 - 22:00)
+        diurnal_json_path = settings.ARTIFACTS_DIR / "authentic_diurnal_hourly_profiles.json"
+        if diurnal_json_path.exists():
+            with open(diurnal_json_path, "r", encoding="utf-8") as f:
+                d_data = json.load(f)
+            raw_pts = d_data.get("hourly_profiles", [])
+            points = [
+                HourlyProfilePoint(
+                    hour=int(p["hour"]),
+                    mean_kwh=float(p["mean_kwh"]),
+                    std_kwh=float(p["std_kwh"]),
+                    median_kwh=float(p["median_kwh"]),
+                    peak_period_flag=bool(p.get("peak_period_flag", False)),
+                )
+                for p in raw_pts
+            ]
+            return HourlyAnalysisResponse(
+                hourly_profiles=points,
+                peak_hours_range="06:00 - 09:00 & 18:00 - 22:00",
+                statistical_summary=(
+                    "Authentic 24-hour diurnal profile computed from 1,000,000 observations, "
+                    "showing morning ramp-up and prominent evening grid peak."
+                ),
+            )
+
+        # Fallback if artifact unavailable
         points: List[HourlyProfilePoint] = []
         for h in range(24):
             is_peak = (9 <= h <= 12) or (18 <= h <= 21)
-            base = 25.0 + (25.0 if is_peak else (8.0 if 13 <= h <= 17 else 2.0))
-            std = 8.0 + (6.0 if is_peak else 2.0)
+            base = 13.0 + (3.0 if is_peak else 0.0)
+            std = 9.0 + (1.0 if is_peak else 0.0)
             points.append(
                 HourlyProfilePoint(
                     hour=h,
@@ -101,18 +129,15 @@ class SegmentService:
         return HourlyAnalysisResponse(
             hourly_profiles=points,
             peak_hours_range="09:00 - 12:00 & 18:00 - 21:00",
-            statistical_summary=(
-                "Hourly consumption displays a bimodal diurnal pattern with sharp morning and evening peaks, "
-                "in alignment with Tamil Nadu grid operational profiles."
-            ),
+            statistical_summary="Hourly consumption displays diurnal pattern in alignment with Tamil Nadu grid operational profiles.",
         )
 
     def get_temporal_shift(self) -> TemporalShiftResponse:
-        records = self.repo.get_by_segment_type("year")
+        records = sorted(self.repo.get_by_segment_type("year"), key=lambda r: int(r.segment_value))
         schemas = [SegmentStatisticSchema.model_validate(r) for r in records]
 
         shifts: List[TemporalShiftItem] = []
-        base_mean = schemas[0].mean_kwh if schemas else 40.10
+        base_mean = schemas[0].mean_kwh if schemas else 13.6715
 
         for s in schemas:
             pct = round(((s.mean_kwh - base_mean) / base_mean) * 100, 2)
@@ -131,9 +156,9 @@ class SegmentService:
 
         return TemporalShiftResponse(
             shifts=shifts,
-            overall_trend="Positive Secular Trend (+3.2% CAGR)",
+            overall_trend="Secular Upward Trend (+20.2% over 2015–2024 cohorts)",
             statistical_summary=(
-                "Year-over-year analysis demonstrates a systematic rightward shift in consumption distributions, "
-                "with stable shape parameters indicating uniform growth across strata."
+                "Longitudinal analysis across 2015–2024 cohorts demonstrates a systematic rightward shift "
+                "from 13.67 kWh (2015) to 16.43 kWh (2024 partial year: Jan–Jul, 53,344 observations)."
             ),
         )

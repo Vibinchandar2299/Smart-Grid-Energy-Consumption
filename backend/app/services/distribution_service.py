@@ -33,21 +33,21 @@ class DistributionService:
             if desc
             else DescriptiveStatisticsSchema(
                 scope="overall",
-                count=105120,
-                mean=42.845,
-                std=18.932,
-                variance=358.42,
-                min_val=4.12,
-                q25=28.50,
-                median=40.15,
-                q75=54.30,
-                max_val=142.80,
-                skewness=0.842,
-                kurtosis=1.156,
+                count=1000000,
+                mean=14.7378,
+                std=9.706,
+                variance=94.2057,
+                min_val=1.84,
+                q25=5.99,
+                median=10.894,
+                q75=23.415,
+                max_val=66.745,
+                skewness=0.5407,
+                kurtosis=-0.9905,
             )
         )
 
-        best_fit = fit_schemas[0].distribution if fit_schemas else "Gamma"
+        best_fit = fit_schemas[0].distribution if fit_schemas else "Log-normal"
 
         return DistributionComparisonResponse(
             descriptive_statistics=desc_schema,
@@ -55,7 +55,7 @@ class DistributionService:
             best_distribution=best_fit,
             selection_rationale=(
                 f"The {best_fit} distribution achieved the lowest AIC/BIC scores and highest "
-                f"goodness-of-fit in the validated research phase."
+                f"goodness-of-fit ranking in the validated research phase."
             ),
         )
 

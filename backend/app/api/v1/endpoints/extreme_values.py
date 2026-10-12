@@ -10,7 +10,7 @@ router = APIRouter()
 
 @router.get("", response_model=ApiResponse[ExtremeValueAnalysisResponse])
 def get_extreme_values(
-    block_type: str = Query(default="monthly_maxima", regex="^(monthly_maxima|daily_maxima)$"),
+    block_type: str = Query(default="daily_maxima", regex="^(daily_maxima|monthly_maxima)$"),
     service: ExtremeValueService = Depends(get_extreme_value_service),
 ):
     """

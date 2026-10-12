@@ -17,9 +17,14 @@ class ExtremeValueService:
     def __init__(self, db: Session):
         self.repo = ExtremeValueRepository(db)
 
-    def get_extreme_value_analysis(self, block_type: str = "monthly_maxima") -> ExtremeValueAnalysisResponse:
+    def get_extreme_value_analysis(self, block_type: str = "daily_maxima") -> ExtremeValueAnalysisResponse:
         records = self.repo.get_by_block_type(block_type)
-        items = [ExtremeValueItem.model_validate(r) for r in records]
+        items = []
+        for r in records:
+            item = ExtremeValueItem.model_validate(r)
+            if item.return_period_days and item.return_period_days > 0:
+                item.daily_exceedance_rate = round(1.0 / item.return_period_days, 6)
+            items.append(item)
 
         if items:
             first = items[0]
@@ -27,11 +32,11 @@ class ExtremeValueService:
             loc_mu = first.loc_mu
             scale_sigma = first.scale_sigma
         else:
-            shape_xi = 0.124
-            loc_mu = 104.50
-            scale_sigma = 14.80
+            shape_xi = -0.044268
+            loc_mu = 64.1015
+            scale_sigma = 21.1282
 
-        # Classify domain: xi > 0 (Type II / Fréchet, heavy-tailed), xi = 0 (Gumbel), xi < 0 (Type III / Weibull)
+        # Classify domain: xi > 0 (Type II / Fréchet), xi = 0 (Gumbel), xi < 0 (Type III / Weibull)
         domain = "Fréchet (Heavy-tailed, Type II)" if shape_xi > 0 else (
             "Weibull (Bounded upper tail, Type III)" if shape_xi < 0 else "Gumbel (Light-tailed, Type I)"
         )
@@ -43,13 +48,17 @@ class ExtremeValueService:
             domain_type=domain,
         )
 
+        summary = (
+            f"Block maxima fitted with GEV parameters (ξ = {round(shape_xi, 4)}, μ = {round(loc_mu, 2)} kWh, σ = {round(scale_sigma, 2)} kWh). "
+            f"The negative shape parameter (ξ < 0) indicates a Type III (Weibull-like) domain with a finite upper tail bound, "
+            "signaling physical saturation limits on daily maximum grid consumption."
+            if shape_xi < 0
+            else f"Block maxima fitted with GEV parameters (ξ = {round(shape_xi, 4)}, μ = {round(loc_mu, 2)} kWh, σ = {round(scale_sigma, 2)} kWh)."
+        )
+
         return ExtremeValueAnalysisResponse(
             block_type=block_type,
             gev_parameters=gev_params,
             return_levels=items,
-            statistical_summary=(
-                f"Block maxima fitted with GEV parameters (ξ = {shape_xi}, μ = {loc_mu}, σ = {scale_sigma}). "
-                f"The positive shape parameter (ξ > 0) indicates a Fréchet domain with polynomial tail decay, "
-                "signaling susceptibility to pronounced extreme consumption spikes."
-            ),
+            statistical_summary=summary,
         )
