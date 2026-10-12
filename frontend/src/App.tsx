@@ -43,6 +43,15 @@ export const App: React.FC = () => {
         onOpenDataInfo={() => setIsDataInfoOpen(true)}
       />
 
+      {/* Mobile Drawer Backdrop */}
+      {isMobileMenuOpen && (
+        <div
+          className="sidebar-backdrop"
+          onClick={() => setIsMobileMenuOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+
       {/* Main Content Area */}
       <main className="main-content">
         <Header
