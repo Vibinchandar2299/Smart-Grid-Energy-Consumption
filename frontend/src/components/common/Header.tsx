@@ -45,7 +45,6 @@ export const Header: React.FC<HeaderProps> = ({
           <button
             onClick={onOpenDataInfo}
             className="tab-pill tab-pill-active"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', cursor: 'pointer' }}
             title="Inspect dataset architecture and disclosures"
           >
             <Info className="w-3.5 h-3.5 text-emerald-600" />

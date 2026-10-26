@@ -621,7 +621,7 @@ export const ConsumptionAnalysisPage: React.FC = () => {
                     Select a percentile cutoff to identify right-tail exceedance events.
                   </p>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="toggle-group">
                   {[90.0, 95.0, 97.5, 99.0, 99.5, 99.9].map((p) => (
                     <button
                       key={p}

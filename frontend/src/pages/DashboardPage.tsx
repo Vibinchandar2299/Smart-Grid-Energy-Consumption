@@ -190,14 +190,14 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigateSection 
         <div className="grid-3-col my-4">
           <div
             onClick={() => onNavigateSection('consumption')}
-            className="action-card cursor-pointer p-4 bg-white border border-slate-200 rounded-lg hover:border-emerald-500 hover:shadow-sm transition-all"
+            className="action-card"
           >
             <div className="flex items-center justify-between">
               <span className="font-semibold text-slate-800 text-sm flex items-center gap-1.5">
                 <BarChart3 className="w-4 h-4 text-emerald-600" />
                 Consumption Record Explorer
               </span>
-              <ArrowRight className="w-4 h-4 text-slate-400" />
+              <ArrowRight className="w-4 h-4 text-slate-400 action-card-arrow transition-all" />
             </div>
             <p className="text-xs text-slate-500 mt-1">
               Dynamic multi-criteria SQL filtering, moment recalculation, and 99th percentile high-consumption detection.
@@ -206,14 +206,14 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigateSection 
 
           <div
             onClick={() => onNavigateSection('distributions')}
-            className="action-card cursor-pointer p-4 bg-white border border-slate-200 rounded-lg hover:border-blue-500 hover:shadow-sm transition-all"
+            className="action-card"
           >
             <div className="flex items-center justify-between">
               <span className="font-semibold text-slate-800 text-sm flex items-center gap-1.5">
                 <Activity className="w-4 h-4 text-blue-600" />
                 Probability Distribution Fitting
               </span>
-              <ArrowRight className="w-4 h-4 text-slate-400" />
+              <ArrowRight className="w-4 h-4 text-slate-400 action-card-arrow transition-all" />
             </div>
             <p className="text-xs text-slate-500 mt-1">
               Continuous MLE PDF curves, AIC/BIC rankings (Log-normal Rank #1), and resolution-adjustable visualizer.
@@ -222,14 +222,14 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigateSection 
 
           <div
             onClick={() => onNavigateSection('extreme-values')}
-            className="action-card cursor-pointer p-4 bg-white border border-slate-200 rounded-lg hover:border-amber-500 hover:shadow-sm transition-all"
+            className="action-card"
           >
             <div className="flex items-center justify-between">
               <span className="font-semibold text-slate-800 text-sm flex items-center gap-1.5">
                 <Zap className="w-4 h-4 text-amber-600" />
                 Extreme Value (GEV) Modeling
               </span>
-              <ArrowRight className="w-4 h-4 text-slate-400" />
+              <ArrowRight className="w-4 h-4 text-slate-400 action-card-arrow transition-all" />
             </div>
             <p className="text-xs text-slate-500 mt-1">
               Daily & monthly block maxima fitting, Weibull (Type III) bounded tail analysis, and design return level curves.

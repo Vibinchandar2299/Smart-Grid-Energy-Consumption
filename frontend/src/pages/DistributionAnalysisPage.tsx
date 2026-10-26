@@ -156,7 +156,8 @@ export const DistributionAnalysisPage: React.FC = () => {
           </div>
           <button
             onClick={handleResetCurveControls}
-            className="text-xs text-slate-500 hover:text-slate-800 flex items-center gap-1"
+            className="btn-ghost"
+            title="Reset resolution to default and re-enable all 4 theoretical curves"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             <span>Reset View</span>
