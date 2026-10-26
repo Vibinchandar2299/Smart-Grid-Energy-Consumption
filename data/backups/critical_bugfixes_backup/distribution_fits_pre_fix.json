@@ -1,0 +1,66 @@
+[
+  {
+    "id":1,
+    "distribution":"Log-normal",
+    "param_shape":null,
+    "param_loc":0.0,
+    "param_scale":1.0,
+    "aic":79049.2411654761,
+    "bic":79070.8721865921,
+    "ks_statistic":0.011598624,
+    "ks_pvalue":0.1345966759,
+    "ad_statistic":null,
+    "rank":1,
+    "parameters_json":{
+
+    }
+  },
+  {
+    "id":2,
+    "distribution":"Weibull",
+    "param_shape":null,
+    "param_loc":0.0,
+    "param_scale":1.0,
+    "aic":79249.8906688209,
+    "bic":79271.5216899368,
+    "ks_statistic":0.0381173028,
+    "ks_pvalue":0.0,
+    "ad_statistic":null,
+    "rank":2,
+    "parameters_json":{
+
+    }
+  },
+  {
+    "id":3,
+    "distribution":"Normal",
+    "param_shape":null,
+    "param_loc":0.0,
+    "param_scale":1.0,
+    "aic":87919.9808363961,
+    "bic":87934.4015171401,
+    "ks_statistic":0.1618549269,
+    "ks_pvalue":2.349600128e-229,
+    "ad_statistic":null,
+    "rank":3,
+    "parameters_json":{
+
+    }
+  },
+  {
+    "id":4,
+    "distribution":"Gamma",
+    "param_shape":null,
+    "param_loc":0.0,
+    "param_scale":1.0,
+    "aic":203813.1681129165,
+    "bic":203834.7991340325,
+    "ks_statistic":0.8471377673,
+    "ks_pvalue":0.0,
+    "ad_statistic":null,
+    "rank":4,
+    "parameters_json":{
+
+    }
+  }
+]
