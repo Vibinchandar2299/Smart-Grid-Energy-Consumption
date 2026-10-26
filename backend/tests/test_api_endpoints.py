@@ -133,11 +133,12 @@ def test_extreme_values_endpoint():
 
     assert data["block_type"] == "daily_maxima"
     gev = data["gev_parameters"]
-    assert pytest.approx(gev["shape_xi"], rel=1e-3) == -0.044268
+    assert pytest.approx(gev["shape_xi"], rel=1e-3) == -0.102216
     assert "Weibull" in gev["domain_type"]
 
     return_levels = data["return_levels"]
     assert len(return_levels) == 6
+    assert return_levels[0]["sample_maxima_count"] == 3473
 
     days = [r["return_period_days"] for r in return_levels]
     assert days == [7, 30, 90, 180, 365, 730]
