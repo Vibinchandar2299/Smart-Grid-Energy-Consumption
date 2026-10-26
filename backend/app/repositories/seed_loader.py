@@ -84,31 +84,85 @@ def load_frozen_artifacts_into_db(db: Session, force: bool = False) -> bool:
                     )
                     db.add(desc_obj)
 
-        # 2. Seed Distribution Fits
-        fits_count = db.query(DistributionFit).count()
+        # 2. Seed / Update Distribution Fits with Authentic Parameters
         dist_json_path = artifacts_dir / "distribution_results.json"
-        if fits_count == 0 and dist_json_path.exists():
+        if dist_json_path.exists():
             with open(dist_json_path, "r", encoding="utf-8") as f:
                 dist_data = json.load(f)
 
             fits = dist_data.get("distribution_fits", [])
             for item in fits:
-                params = item.get("parameters", {})
-                fit_obj = DistributionFit(
-                    distribution=item["distribution"],
-                    param_shape=params.get("s") or params.get("a") or params.get("c"),
-                    param_loc=params.get("loc", 0.0),
-                    param_scale=params.get("scale", 1.0),
-                    aic=float(item["aic"]),
-                    bic=float(item["bic"]),
-                    ks_statistic=float(item["ks_statistic"]),
-                    ks_pvalue=float(item["ks_pvalue"]),
-                    ad_statistic=float(item["ad_statistic"]) if item.get("ad_statistic") is not None else None,
-                    rank=int(item["rank"]),
-                    parameters_json=params,
-                )
-                db.add(fit_obj)
-            logger.info("Seeded distribution fits from staged JSON artifact.")
+                dist_name = item["distribution"]
+                params_raw = item.get("parameters_json")
+                if isinstance(params_raw, str):
+                    try:
+                        params = json.loads(params_raw)
+                    except Exception:
+                        params = {}
+                elif isinstance(params_raw, dict):
+                    params = params_raw
+                else:
+                    params = item.get("parameters", {})
+
+                # Extract shape per distribution convention
+                shape_val = None
+                if dist_name == "Log-normal":
+                    shape_val = params.get("s") if params.get("s") is not None else item.get("param_shape")
+                elif dist_name == "Weibull":
+                    shape_val = params.get("c") if params.get("c") is not None else item.get("param_shape")
+                elif dist_name == "Gamma":
+                    shape_val = params.get("a") if params.get("a") is not None else item.get("param_shape")
+                elif dist_name == "Normal":
+                    shape_val = None
+                else:
+                    shape_val = item.get("param_shape") or params.get("s") or params.get("c") or params.get("a")
+
+                if shape_val is not None:
+                    shape_val = float(shape_val)
+
+                # Extract loc and scale
+                if "loc" in params:
+                    loc_val = float(params["loc"])
+                elif item.get("param_loc") is not None:
+                    loc_val = float(item["param_loc"])
+                else:
+                    loc_val = 0.0
+
+                if "scale" in params:
+                    scale_val = float(params["scale"])
+                elif item.get("param_scale") is not None:
+                    scale_val = float(item["param_scale"])
+                else:
+                    raise ValueError(f"Missing required 'scale' parameter for distribution {dist_name}")
+
+                existing = db.query(DistributionFit).filter(DistributionFit.distribution == dist_name).first()
+                if existing:
+                    existing.param_shape = shape_val
+                    existing.param_loc = loc_val
+                    existing.param_scale = scale_val
+                    existing.aic = float(item["aic"])
+                    existing.bic = float(item["bic"])
+                    existing.ks_statistic = float(item["ks_statistic"])
+                    existing.ks_pvalue = float(item["ks_pvalue"])
+                    existing.ad_statistic = float(item["ad_statistic"]) if item.get("ad_statistic") is not None else None
+                    existing.rank = int(item["rank"])
+                    existing.parameters_json = params
+                else:
+                    fit_obj = DistributionFit(
+                        distribution=dist_name,
+                        param_shape=shape_val,
+                        param_loc=loc_val,
+                        param_scale=scale_val,
+                        aic=float(item["aic"]),
+                        bic=float(item["bic"]),
+                        ks_statistic=float(item["ks_statistic"]),
+                        ks_pvalue=float(item["ks_pvalue"]),
+                        ad_statistic=float(item["ad_statistic"]) if item.get("ad_statistic") is not None else None,
+                        rank=int(item["rank"]),
+                        parameters_json=params,
+                    )
+                    db.add(fit_obj)
+            logger.info("Synchronized distribution fits with authentic parameters from staged JSON.")
 
         # 3. Seed Segment Statistics
         seg_count = db.query(SegmentStatistic).count()

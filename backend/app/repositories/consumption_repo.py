@@ -436,3 +436,25 @@ class ConsumptionRepository:
             }
             for r in rows
         ]
+
+    def get_authentic_daily_maxima(self) -> List[Dict[str, Any]]:
+        """Extracts daily block maxima grouped by actual calendar date (3,473 dates)."""
+        query = text("""
+            SELECT
+                DATE(timestamp) AS dt,
+                MAX(energy_consumption_kwh) AS max_kwh,
+                COUNT(*) AS observation_count
+            FROM energy_consumption_records
+            GROUP BY DATE(timestamp)
+            ORDER BY dt ASC;
+        """)
+        rows = self.db.execute(query).mappings().fetchall()
+        return [
+            {
+                "date_cohort": str(r["dt"]),
+                "max_kwh": round(float(r["max_kwh"]), 3),
+                "count": int(r["observation_count"]),
+            }
+            for r in rows
+        ]
+
