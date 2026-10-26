@@ -1,12 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import { Zap, TrendingUp, Building2, Clock, Lightbulb, Activity } from 'lucide-react';
+import {
+  Zap,
+  TrendingUp,
+  Building2,
+  Clock,
+  Lightbulb,
+  Activity,
+  Calendar,
+  Database,
+  ArrowRight,
+  ShieldCheck,
+  BarChart3,
+} from 'lucide-react';
 import { overviewApi, OverviewData } from '../api/services/overviewApi';
 import { hourlyApi } from '../api/services/hourlyApi';
 import { sectorApi } from '../api/services/sectorApi';
 import { peakApi } from '../api/services/peakApi';
 import { HourlyAnalysisData, SectorAnalysisData, PeakAnalysisData } from '../types/segment';
 import { MetricCard } from '../components/common/MetricCard';
-import { formatKwh, formatGwh, formatPercent, formatNumber } from '../utils/formatters';
+import { formatNumber, formatKwh } from '../utils/formatters';
 import { SECTOR_COLORS } from '../utils/constants';
 import {
   ResponsiveContainer,
@@ -21,7 +33,11 @@ import {
   Cell,
 } from 'recharts';
 
-export const DashboardPage: React.FC = () => {
+interface DashboardPageProps {
+  onNavigateSection?: (sectionId: string) => void;
+}
+
+export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigateSection }) => {
   const [overview, setOverview] = useState<OverviewData | null>(null);
   const [hourly, setHourly] = useState<HourlyAnalysisData | null>(null);
   const [sectors, setSectors] = useState<SectorAnalysisData | null>(null);
@@ -55,7 +71,7 @@ export const DashboardPage: React.FC = () => {
       <div className="page-container">
         <div className="page-loading">
           <Activity className="w-6 h-6 text-emerald-600 animate-spin" style={{ margin: '0 auto 0.75rem' }} />
-          Loading smart grid operational data...
+          Loading smart grid operational data & statistical benchmarks...
         </div>
       </div>
     );
@@ -97,10 +113,32 @@ export const DashboardPage: React.FC = () => {
 
   return (
     <div className="page-container">
+      {/* Research Provenance & Transparency Banner */}
+      <div className="research-banner p-3 mb-4 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-950 flex flex-wrap items-center justify-between gap-3 text-xs">
+        <div className="flex items-center gap-2">
+          <ShieldCheck className="w-4 h-4 text-emerald-700 shrink-0" />
+          <div>
+            <span className="font-bold uppercase tracking-wider text-emerald-800 mr-2">
+              Synthetic Research Benchmark Dataset
+            </span>
+            <span className="text-emerald-900">
+              Coverage: <strong>2015-01-01 to 2024-07-04</strong> (Last timestamp: 2024-07-04 15:00:00).
+              <span className="ml-1 text-emerald-700 italic">Notice: 2024 is a partial calendar year (7 months observed).</span>
+            </span>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="pill-badge pill-badge-emerald font-mono text-xs">
+            N = 1,000,000 Verified Observations
+          </span>
+        </div>
+      </div>
+
+      {/* Page Header */}
       <div className="page-header">
-        <h2 className="page-title">Executive Energy Consumption Dashboard</h2>
+        <h2 className="page-title">Executive Smart Grid Energy Analytics Dashboard</h2>
         <p className="page-description">
-          High-level operational overview across 1,000,000 smart meter hours calibrated to Tamil Nadu grid demand patterns.
+          Empirical consumption statistics, diurnal demand cycles, and peak load dynamics across the 1,000,000 meter dataset.
         </p>
       </div>
 
@@ -111,7 +149,7 @@ export const DashboardPage: React.FC = () => {
           value={formatNumber(totalMonitoredGwh, 2)}
           unit="GWh"
           subtitle="Cumulative across 1,000,000 meter hours"
-          badge="Selected Period"
+          badge="Complete Period"
           icon={<Zap className="w-4 h-4 text-emerald-600" />}
           variant="emerald"
         />
@@ -139,13 +177,66 @@ export const DashboardPage: React.FC = () => {
         <MetricCard
           title="Top Consuming Sector"
           value={overview.highest_consuming_sector}
-          unit={`${formatNumber(sectorChartData.find(s => s.name === overview.highest_consuming_sector)?.meanKwh ?? 25.50, 1)} kWh`}
-          subtitle="Industrial manufacturing & large loads"
+          unit={`${formatNumber(sectorChartData.find((s) => s.name === overview.highest_consuming_sector)?.meanKwh ?? 25.50, 1)} kWh`}
+          subtitle="Industrial manufacturing & continuous loads"
           badge="Sector Leader"
           icon={<Building2 className="w-4 h-4 text-emerald-600" />}
           variant="default"
         />
       </div>
+
+      {/* Quick Navigation Cards to Deep-Dive Modules */}
+      {onNavigateSection && (
+        <div className="grid-3-col my-4">
+          <div
+            onClick={() => onNavigateSection('consumption')}
+            className="action-card cursor-pointer p-4 bg-white border border-slate-200 rounded-lg hover:border-emerald-500 hover:shadow-sm transition-all"
+          >
+            <div className="flex items-center justify-between">
+              <span className="font-semibold text-slate-800 text-sm flex items-center gap-1.5">
+                <BarChart3 className="w-4 h-4 text-emerald-600" />
+                Consumption Record Explorer
+              </span>
+              <ArrowRight className="w-4 h-4 text-slate-400" />
+            </div>
+            <p className="text-xs text-slate-500 mt-1">
+              Dynamic multi-criteria SQL filtering, moment recalculation, and 99th percentile high-consumption detection.
+            </p>
+          </div>
+
+          <div
+            onClick={() => onNavigateSection('distributions')}
+            className="action-card cursor-pointer p-4 bg-white border border-slate-200 rounded-lg hover:border-blue-500 hover:shadow-sm transition-all"
+          >
+            <div className="flex items-center justify-between">
+              <span className="font-semibold text-slate-800 text-sm flex items-center gap-1.5">
+                <Activity className="w-4 h-4 text-blue-600" />
+                Probability Distribution Fitting
+              </span>
+              <ArrowRight className="w-4 h-4 text-slate-400" />
+            </div>
+            <p className="text-xs text-slate-500 mt-1">
+              Continuous MLE PDF curves, AIC/BIC rankings (Log-normal Rank #1), and resolution-adjustable visualizer.
+            </p>
+          </div>
+
+          <div
+            onClick={() => onNavigateSection('extreme-values')}
+            className="action-card cursor-pointer p-4 bg-white border border-slate-200 rounded-lg hover:border-amber-500 hover:shadow-sm transition-all"
+          >
+            <div className="flex items-center justify-between">
+              <span className="font-semibold text-slate-800 text-sm flex items-center gap-1.5">
+                <Zap className="w-4 h-4 text-amber-600" />
+                Extreme Value (GEV) Modeling
+              </span>
+              <ArrowRight className="w-4 h-4 text-slate-400" />
+            </div>
+            <p className="text-xs text-slate-500 mt-1">
+              Daily & monthly block maxima fitting, Weibull (Type III) bounded tail analysis, and design return level curves.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Main Charts Grid: Consumption Trend Line Chart & Sector Bar Chart */}
       <div className="grid-2-col">
@@ -338,7 +429,7 @@ export const DashboardPage: React.FC = () => {
           </div>
 
           <div className="notice-box" style={{ marginTop: '1rem' }}>
-            <strong>Metric Context:</strong> Metrics represent hourly meter demand (kWh/hr) sampled across 1,000,000 observations from 2015 to 2024. Total monitored energy represents cumulative consumption across the benchmark dataset (14.74 GWh).
+            <strong>Metric Context:</strong> Hourly meter demand (kWh/hr) across 1,000,000 observations from 2015 to 2024. Total monitored energy represents cumulative consumption across the benchmark dataset (14.74 GWh).
           </div>
         </div>
       </div>

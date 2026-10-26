@@ -4,31 +4,32 @@ import { Header } from './components/common/Header';
 import { DatasetInfoModal } from './components/common/DatasetInfoModal';
 import { SectionId, NAVIGATION_SECTIONS } from './utils/constants';
 
-// The 4 Primary Navigation Sections
+// The 4 Primary Research Application Sections
 import { DashboardPage } from './pages/DashboardPage';
-import { TrendsPage } from './pages/TrendsPage';
-import { SectorAnalysisPage } from './pages/SectorAnalysisPage';
-import { PeakDemandPage } from './pages/PeakDemandPage';
+import { ConsumptionAnalysisPage } from './pages/ConsumptionAnalysisPage';
+import { DistributionAnalysisPage } from './pages/DistributionAnalysisPage';
+import { ExtremeValuePage } from './pages/ExtremeValuePage';
 
 export const App: React.FC = () => {
   const [activeSection, setActiveSection] = useState<SectionId>('dashboard');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const [isDataInfoOpen, setIsDataInfoOpen] = useState<boolean>(false);
 
-  const currentSectionMeta = NAVIGATION_SECTIONS.find((sec) => sec.id === activeSection) || NAVIGATION_SECTIONS[0];
+  const currentSectionMeta =
+    NAVIGATION_SECTIONS.find((sec) => sec.id === activeSection) || NAVIGATION_SECTIONS[0];
 
   const renderSection = () => {
     switch (activeSection) {
       case 'dashboard':
-        return <DashboardPage />;
-      case 'trends':
-        return <TrendsPage />;
-      case 'sectors':
-        return <SectorAnalysisPage />;
-      case 'peak':
-        return <PeakDemandPage />;
+        return <DashboardPage onNavigateSection={(sec) => setActiveSection(sec as SectionId)} />;
+      case 'consumption':
+        return <ConsumptionAnalysisPage />;
+      case 'distributions':
+        return <DistributionAnalysisPage />;
+      case 'extreme-values':
+        return <ExtremeValuePage />;
       default:
-        return <DashboardPage />;
+        return <DashboardPage onNavigateSection={(sec) => setActiveSection(sec as SectionId)} />;
     }
   };
 

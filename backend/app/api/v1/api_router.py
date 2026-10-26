@@ -9,11 +9,13 @@ from app.api.v1.endpoints import (
     hourly,
     temporal_shift,
     extreme_values,
+    consumption,
 )
 
 api_router = APIRouter()
 
 api_router.include_router(overview.router, prefix="/overview", tags=["Overview"])
+api_router.include_router(consumption.router, prefix="/consumption", tags=["Consumption Analysis"])
 api_router.include_router(distributions.router, prefix="/distributions", tags=["Distribution Analysis"])
 api_router.include_router(sectors.router, prefix="/sectors", tags=["Sector Analysis"])
 api_router.include_router(peak_analysis.router, prefix="/peak", tags=["Peak vs Non-Peak Analysis"])

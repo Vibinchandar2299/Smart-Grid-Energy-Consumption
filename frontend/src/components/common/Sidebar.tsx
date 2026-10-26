@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   LayoutDashboard,
+  BarChart3,
   TrendingUp,
   Building2,
   Zap,
@@ -19,9 +20,11 @@ interface SidebarProps {
 
 const iconMap = {
   LayoutDashboard,
+  BarChart3,
   TrendingUp,
   Building2,
   Zap,
+  Activity,
 };
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -44,7 +47,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </div>
 
       <nav className="sidebar-nav">
-        <div className="nav-section-title">MONITORING SECTIONS</div>
+        <div className="nav-section-title">RESEARCH & MONITORING</div>
         {NAVIGATION_SECTIONS.map((sec) => {
           const IconComponent = iconMap[sec.icon as keyof typeof iconMap] || LayoutDashboard;
           const isActive = activeSection === sec.id;
@@ -69,17 +72,17 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div className="dataset-badge-card">
           <div className="dataset-badge-title">
             <Info className="w-3.5 h-3.5 text-emerald-600" />
-            <span>Dataset Information</span>
+            <span>Dataset Architecture</span>
           </div>
           <p className="dataset-badge-desc">
-            1,000,000 smart meter hours calibrated to Tamil Nadu grid demand patterns.
+            1,000,000 synthetic smart meter hours calibrated to Tamil Nadu grid demand patterns (2015–2024).
           </p>
           {onOpenDataInfo && (
             <button
               onClick={onOpenDataInfo}
               className="mt-2 text-xs font-semibold text-emerald-700 hover:text-emerald-800 bg-transparent border-0 p-0 cursor-pointer block"
             >
-              View Data Architecture →
+              View Research Methodology →
             </button>
           )}
         </div>

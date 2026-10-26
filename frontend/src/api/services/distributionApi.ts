@@ -10,4 +10,8 @@ export const distributionApi = {
   getCurves: (points: number = 100): Promise<ApiResponse<CurvePoint[]>> => {
     return apiClient<CurvePoint[]>(`${ENDPOINTS.DISTRIBUTIONS.CURVES}?points=${points}`);
   },
+  getExportCsvUrl: (): string => {
+    const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1';
+    return `${baseUrl}${ENDPOINTS.DISTRIBUTIONS.EXPORT_CSV}`;
+  },
 };
