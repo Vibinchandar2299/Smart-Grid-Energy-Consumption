@@ -112,6 +112,9 @@ def test_distributions_compare():
     # Check ranking
     assert fits[0]["distribution"] == "Log-normal"
     assert fits[0]["rank"] == 1
+    # Check authentic parameters
+    assert fits[0]["param_shape"] == pytest.approx(0.849801, rel=1e-3)
+    assert fits[0]["param_scale"] == pytest.approx(14.819985, rel=1e-3)
     # Check that AD is null / uncomputed
     assert fits[0]["ad_statistic"] is None
 
@@ -127,6 +130,10 @@ def test_distributions_curves_dynamic_resolution():
     assert "weibull_pdf" in curves[0]
     assert "normal_pdf" in curves[0]
     assert "gamma_pdf" in curves[0]
+    # Check realistic PDF values near median (x ~ 12 kWh)
+    mid_pt = curves[len(curves) // 5]
+    assert mid_pt["lognormal_pdf"] > 0.01
+    assert mid_pt["weibull_pdf"] > 0.01
 
 
 def test_distributions_csv_export():
@@ -145,7 +152,10 @@ def test_extreme_values_daily():
     assert data["block_type"] == "daily_maxima"
     params = data["gev_parameters"]
     assert params["shape_xi"] < 0  # Weibull bounded tail
+    assert -0.15 < params["shape_xi"] < -0.05
+    assert 34.0 < params["loc_mu"] < 38.0
     assert len(data["return_levels"]) >= 6
+    assert data["return_levels"][0]["sample_maxima_count"] == 3473
 
 
 def test_extreme_values_monthly_authentic():

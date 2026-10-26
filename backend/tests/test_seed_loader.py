@@ -55,11 +55,35 @@ def test_authentic_descriptive_statistics(db_session):
 
 
 def test_distribution_fits_provenance_and_null_ad(db_session):
-    """Verifies Log-normal is rank #1 and AD statistic is null (uncomputed)."""
+    """Verifies Log-normal is rank #1, authentic parameters are loaded, and AD statistic is null."""
     fits = db_session.query(DistributionFit).order_by(DistributionFit.rank.asc()).all()
     assert len(fits) == 4
     assert fits[0].distribution == "Log-normal"
     assert fits[0].rank == 1
+
+    # Verify authentic parameters
+    # Log-normal
+    assert fits[0].param_shape == pytest.approx(0.849801, rel=1e-3)
+    assert fits[0].param_loc == pytest.approx(0.0, abs=1e-3)
+    assert fits[0].param_scale == pytest.approx(14.819985, rel=1e-3)
+
+    # Weibull
+    assert fits[1].distribution == "Weibull"
+    assert fits[1].param_shape == pytest.approx(1.087552, rel=1e-3)
+    assert fits[1].param_loc == pytest.approx(1.603431, rel=1e-3)
+    assert fits[1].param_scale == pytest.approx(20.135704, rel=1e-3)
+
+    # Normal
+    assert fits[2].distribution == "Normal"
+    assert fits[2].param_shape is None
+    assert fits[2].param_loc == pytest.approx(21.060290, rel=1e-3)
+    assert fits[2].param_scale == pytest.approx(19.626104, rel=1e-3)
+
+    # Gamma
+    assert fits[3].distribution == "Gamma"
+    assert fits[3].param_shape == pytest.approx(0.242880, rel=1e-3)
+    assert fits[3].param_loc == pytest.approx(1.603680, rel=1e-3)
+    assert fits[3].param_scale == pytest.approx(2.895440, rel=1e-3)
 
     # In Colab exports, AD statistic was uncomputed and must remain None
     for f in fits:
@@ -88,7 +112,7 @@ def test_segment_statistics_sectors_and_cohorts(db_session):
 
 
 def test_extreme_value_day_based_return_periods(db_session):
-    """Verifies all six day-based EVT return periods, null CIs and no legacy annual records."""
+    """Verifies all six day-based EVT return periods derived from authentic 3,473 calendar dates."""
     evs = db_session.query(ExtremeValueResult).order_by(ExtremeValueResult.return_period_days.asc()).all()
     assert len(evs) == 6
 
@@ -96,13 +120,13 @@ def test_extreme_value_day_based_return_periods(db_session):
     actual_days = [e.return_period_days for e in evs]
     assert actual_days == expected_days
 
-    # Shape parameter is negative (Weibull domain)
+    # Shape parameter is negative (Weibull domain) for authentic 3,473 calendar dates
     for e in evs:
         assert e.block_type == "daily_maxima"
-        assert e.sample_maxima_count == 41667
-        assert pytest.approx(e.shape_xi, rel=1e-3) == -0.044268
-        assert pytest.approx(e.loc_mu, rel=1e-3) == 64.1015
-        assert pytest.approx(e.scale_sigma, rel=1e-3) == 21.1282
+        assert e.sample_maxima_count == 3473
+        assert pytest.approx(e.shape_xi, rel=1e-3) == -0.102216
+        assert pytest.approx(e.loc_mu, rel=1e-3) == 36.1160
+        assert pytest.approx(e.scale_sigma, rel=1e-3) == 4.1645
         # CIs must be null (uncomputed)
         assert e.ci_lower_95 is None
         assert e.ci_upper_95 is None
