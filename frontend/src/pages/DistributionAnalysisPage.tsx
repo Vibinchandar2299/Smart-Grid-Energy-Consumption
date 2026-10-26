@@ -168,46 +168,48 @@ export const DistributionAnalysisPage: React.FC = () => {
           {/* Curve Toggles */}
           <div className="flex flex-wrap items-center gap-2 text-xs">
             <span className="text-slate-500 font-medium">Visible Curves:</span>
-            <button
-              onClick={() => handleToggleCurve('lognormal')}
-              className={`toggle-btn ${visibleCurves.lognormal ? 'toggle-active' : ''}`}
-              style={{
-                borderColor: visibleCurves.lognormal ? DISTRIBUTION_COLORS['Log-normal'] : undefined,
-                color: visibleCurves.lognormal ? DISTRIBUTION_COLORS['Log-normal'] : undefined,
-              }}
-            >
-              Log-normal (Rank #1)
-            </button>
-            <button
-              onClick={() => handleToggleCurve('weibull')}
-              className={`toggle-btn ${visibleCurves.weibull ? 'toggle-active' : ''}`}
-              style={{
-                borderColor: visibleCurves.weibull ? DISTRIBUTION_COLORS.Weibull : undefined,
-                color: visibleCurves.weibull ? DISTRIBUTION_COLORS.Weibull : undefined,
-              }}
-            >
-              Weibull (Rank #2)
-            </button>
-            <button
-              onClick={() => handleToggleCurve('normal')}
-              className={`toggle-btn ${visibleCurves.normal ? 'toggle-active' : ''}`}
-              style={{
-                borderColor: visibleCurves.normal ? DISTRIBUTION_COLORS.Normal : undefined,
-                color: visibleCurves.normal ? DISTRIBUTION_COLORS.Normal : undefined,
-              }}
-            >
-              Normal (Rank #3)
-            </button>
-            <button
-              onClick={() => handleToggleCurve('gamma')}
-              className={`toggle-btn ${visibleCurves.gamma ? 'toggle-active' : ''}`}
-              style={{
-                borderColor: visibleCurves.gamma ? DISTRIBUTION_COLORS.Gamma : undefined,
-                color: visibleCurves.gamma ? DISTRIBUTION_COLORS.Gamma : undefined,
-              }}
-            >
-              Gamma (Rank #4)
-            </button>
+            <div className="toggle-group">
+              <button
+                onClick={() => handleToggleCurve('lognormal')}
+                className={`toggle-btn ${visibleCurves.lognormal ? 'toggle-active' : ''}`}
+                style={{
+                  borderColor: visibleCurves.lognormal ? DISTRIBUTION_COLORS['Log-normal'] : undefined,
+                  color: visibleCurves.lognormal ? DISTRIBUTION_COLORS['Log-normal'] : undefined,
+                }}
+              >
+                Log-normal (Rank #1)
+              </button>
+              <button
+                onClick={() => handleToggleCurve('weibull')}
+                className={`toggle-btn ${visibleCurves.weibull ? 'toggle-active' : ''}`}
+                style={{
+                  borderColor: visibleCurves.weibull ? DISTRIBUTION_COLORS.Weibull : undefined,
+                  color: visibleCurves.weibull ? DISTRIBUTION_COLORS.Weibull : undefined,
+                }}
+              >
+                Weibull (Rank #2)
+              </button>
+              <button
+                onClick={() => handleToggleCurve('normal')}
+                className={`toggle-btn ${visibleCurves.normal ? 'toggle-active' : ''}`}
+                style={{
+                  borderColor: visibleCurves.normal ? DISTRIBUTION_COLORS.Normal : undefined,
+                  color: visibleCurves.normal ? DISTRIBUTION_COLORS.Normal : undefined,
+                }}
+              >
+                Normal (Rank #3)
+              </button>
+              <button
+                onClick={() => handleToggleCurve('gamma')}
+                className={`toggle-btn ${visibleCurves.gamma ? 'toggle-active' : ''}`}
+                style={{
+                  borderColor: visibleCurves.gamma ? DISTRIBUTION_COLORS.Gamma : undefined,
+                  color: visibleCurves.gamma ? DISTRIBUTION_COLORS.Gamma : undefined,
+                }}
+              >
+                Gamma (Rank #4)
+              </button>
+            </div>
           </div>
 
           {/* Resolution Slider */}
